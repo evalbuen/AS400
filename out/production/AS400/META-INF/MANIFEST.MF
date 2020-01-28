@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: as400.AS400CommandCallTest
+Main-Class: as400.Main
 
