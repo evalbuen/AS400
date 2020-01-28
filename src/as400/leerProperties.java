@@ -26,11 +26,10 @@ public class leerProperties {
 
     private String servidor;
 
+    public void getPropValues() {
 
-
-    public void getPropValues() throws IOException {
-
-        try (InputStream input = new FileInputStream("resources/config.properties")) {
+        try {
+            InputStream input = new FileInputStream("resources/config.properties");
 
             Properties prop = new Properties();
 

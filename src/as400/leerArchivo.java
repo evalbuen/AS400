@@ -10,7 +10,7 @@ public class leerArchivo {
         return currentLine;
     }
     private String currentLine;
-    public leerArchivo() throws IOException {
+    public leerArchivo() {
         try {
             String file = "resources/test_read.txt";
             BufferedReader reader = new BufferedReader(new FileReader(file));
