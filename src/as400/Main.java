@@ -2,23 +2,22 @@ package as400;
 
 import java.io.IOException;
 
-
 public class Main {
+    private static ConectarseAS400 ca4;
+    private static LeerProperties properties = new LeerProperties();
+    private static LeerArchivo linea = new LeerArchivo();
+
     public static void main(String[] args) throws IOException {
 
-        leer();
-        convertir();
-    }
-
-    private static void convertir() {
-        leerArchivo linea = new leerArchivo();
-        linea.getCurrentLine();
-        System.out.println("Arreglo de comandos: " + linea.getCurrentLine());
-    }
-
-    private static void leer() {
-        leerProperties properties = new leerProperties();
         properties.getPropValues();
         System.out.println("Usuario: " + properties.getUsuario());
+        System.out.println("Password: " + properties.getPassword());
+        System.out.println("Servidor: " + properties.getServidor());
+
+        linea.getCurrentLine();
+        System.out.println("Arreglo de comandos: " + linea.getCurrentLine());
+
+        ca4 = new ConectarseAS400(linea.getCurrentLine());
+
     }
 }
