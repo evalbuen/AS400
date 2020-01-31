@@ -20,31 +20,44 @@ public class ConectarseAS400 {
         AS400 as400 = null;
         try {
             // Create an AS400 object
-            //as400 = new AS400(getServidor(), getUsuario(), getPassword());
+            as400 = new AS400(getServidor(), getUsuario(), getPassword());
 
             // Create a Command object
-            //CommandCall command = new CommandCall(as400);
+            CommandCall command = new CommandCall(as400);
 
             ArrayList<String> cola = getVectorCommandos();
             for (int i = 0; i < cola.size(); i++) {
 
                 // Run the command.
                 System.out.println("Executing: " + cola.get(i).toString());
-                System.out.println();
+                String salidaMensaje = cola.get(i).toString();
+                String [] ejecutar = salidaMensaje.split("\\|");
+                String interfaz = ejecutar[0];
+                String node = ejecutar[1];
+                String state = ejecutar[2];
+                int numero = Integer.parseInt(state);
+                System.out.println(state);
 
-                //boolean success = command.run(linea);
-                boolean success = true;
+                if (numero == 1) {
+                    String linea = ("system \"STRTCPIFC INTNETADR('" + interfaz + "')\"");
+                    System.out.println(linea);
+                    boolean success = command.run(linea);
+                    //boolean success = true;
 
-                if (success) {
-                    System.out.println("Command Executed Successfully.");
-                } else {
-                    System.out.println("Command Failed!");
+                    if (success) {
+                        System.out.println("Servidor: " + interfaz + " node: " + node);
+                        System.out.println("Command Executed Successfully.");
+                    } else {
+                        System.out.println("Command Failed!");
+                    }
+                    // Get the command results
+                    AS400Message[] messageList = command.getMessageList();
+                    for (AS400Message message : messageList) {
+                        System.out.println(message.getText());
+                    }
+                }else{
+                    System.out.println("La interfaz " + interfaz + " se encontraba apagada");
                 }
-                // Get the command results
-                //AS400Message[] messageList = command.getMessageList();
-                //for (AS400Message message : messageList) {
-                //    System.out.println(message.getText());
-                //}
             }
         } catch (Exception e) {
             e.printStackTrace();
