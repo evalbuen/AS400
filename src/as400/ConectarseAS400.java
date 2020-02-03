@@ -14,19 +14,21 @@ public class ConectarseAS400 {
 
     public ArrayList<String> vectorCommandos;
 
-    public ConectarseAS400(ArrayList<String> vector) {
+    public ConectarseAS400(String servidor, String usuario, String password, ArrayList<String> vector) {
         vectorCommandos = vector;
+
 
         AS400 as400 = null;
         try {
             // Create an AS400 object
-            as400 = new AS400(getServidor(), getUsuario(), getPassword());
-
-            // Create a Command object
-            CommandCall command = new CommandCall(as400);
-
+            System.out.println(servidor);
+            as400 = new AS400(servidor, usuario, password);
+            
             ArrayList<String> cola = getVectorCommandos();
             for (int i = 0; i < cola.size(); i++) {
+
+                // Create a Command object
+                CommandCall command = new CommandCall(as400);
 
                 // Run the command.
                 System.out.println("Executing: " + cola.get(i).toString());
@@ -35,17 +37,16 @@ public class ConectarseAS400 {
                 String interfaz = ejecutar[0];
                 String node = ejecutar[1];
                 String state = ejecutar[2];
-                int numero = Integer.parseInt(state);
+                boolean numero = Boolean.parseBoolean(state);
                 System.out.println(state);
 
-                if (numero == 1) {
-                    String linea = ("system \"STRTCPIFC INTNETADR('" + interfaz + "')\"");
+                if (numero = true) {
+                    String linea = ("STRTCPIFC INTNETADR('" + interfaz + "')");
                     System.out.println(linea);
                     boolean success = command.run(linea);
                     //boolean success = true;
 
                     if (success) {
-                        System.out.println("Servidor: " + interfaz + " node: " + node);
                         System.out.println("Command Executed Successfully.");
                     } else {
                         System.out.println("Command Failed!");
@@ -55,7 +56,7 @@ public class ConectarseAS400 {
                     for (AS400Message message : messageList) {
                         System.out.println(message.getText());
                     }
-                }else{
+                } else{
                     System.out.println("La interfaz " + interfaz + " se encontraba apagada");
                 }
             }

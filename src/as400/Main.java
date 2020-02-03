@@ -3,9 +3,9 @@ package as400;
 import java.io.IOException;
 
 public class Main {
-    private static ConectarseAS400 ca4;
     private static LeerProperties properties = new LeerProperties();
     private static LeerArchivo linea = new LeerArchivo();
+    private static ConectarseAS400 ca4;
 
     public static void main(String[] args) throws IOException {
 
@@ -17,7 +17,7 @@ public class Main {
         linea.getCurrentLine();
         System.out.println("Arreglo de comandos: " + linea.getCurrentLine());
 
-        ca4 = new ConectarseAS400(linea.getCurrentLine());
+        ca4 = new ConectarseAS400(properties.getServidor(), properties.getUsuario(), properties.getPassword(), linea.getCurrentLine());
 
     }
 }
